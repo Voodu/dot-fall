@@ -1,0 +1,29 @@
+{
+  "name": "dotfall",
+  "version": "1.0.0",
+  "description": "Simple game written using Phaser 3.\r Main aim is to fall with the ball as long as you can.",
+  "main": "./dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Voodu/dot-fall.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Voodu/dot-fall/issues"
+  },
+  "homepage": "https://github.com/Voodu/dot-fall#readme",
+  "devDependencies": {
+    "browserify": "^16.2.3",
+    "gulp": "^4.0.0",
+    "gulp-typescript": "^5.0.0",
+    "gulp-util": "^3.0.8",
+    "tsify": "^4.0.1",
+    "typescript": "^3.2.2",
+    "vinyl-source-stream": "^2.0.0",
+    "watchify": "^3.11.0"
+  }
+}
