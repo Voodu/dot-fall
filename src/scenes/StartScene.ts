@@ -5,44 +5,23 @@ export class StartScene extends Phaser.Scene {
         });
     }
 
-    sensitivity = 250;
-
-    ball!: Phaser.Physics.Arcade.Sprite;
+    playButton!: Phaser.GameObjects.Sprite;
+    title!: Phaser.GameObjects.Sprite;
 
     preload(): void {
-        this.load.image("ball", "../src/assets/ball.png");
+        this.load.image("title", "../src/assets/gameTitle.png");
+        this.load.image("play", "../src/assets/playButton.png");
     }
 
     create(): void {
-        this.setupBall();
+        const center = this.game.canvas.width / 2;
+
+        this.title = this.add.sprite(center, 150, "title");
+
+        this.playButton = this.add.sprite(center, 250, "play");
+        this.playButton.setInteractive();
+        this.playButton.on("pointerdown", () => this.scene.start("MainGameScene"));
     }
 
-    private setupBall() {
-        this.ball = this.physics.add.sprite(125, 0, "ball");
-        this.ball.setCollideWorldBounds(false);
-        this.ball.setBounce(0.3, 0);
-    }
-
-    update(): void {
-        this.parseInput();
-
-        if (this.ball.getTopLeft().y > this.game.canvas.height) {
-            console.log("out");
-        }
-    }
-
-    private parseInput() {
-        const half = this.game.canvas.width / 2;
-        if (this.game.input.activePointer.isDown) {
-            if (this.game.input.activePointer.x > half) {
-                this.ball.setAccelerationX(+1 * this.sensitivity);
-            }
-            else if (this.game.input.activePointer.x < half) {
-                this.ball.setAccelerationX(-1 * this.sensitivity);
-            }
-        }
-        else {
-            this.ball.setAccelerationX(0);
-        }
-    }
+    update(): void {}
 }
