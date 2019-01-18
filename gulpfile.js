@@ -5,7 +5,8 @@ var watchify = require("watchify");
 var tsify = require("tsify");
 var gutil = require("gulp-util");
 var paths = {
-    pages: ["src/*.html"]
+    pages: ["src/*.html"],
+    styles: ["src/*.css"]
 };
 
 var watchedBrowserify = watchify(
@@ -22,6 +23,10 @@ gulp.task("copy-html", function() {
     return gulp.src(paths.pages).pipe(gulp.dest("dist"));
 });
 
+gulp.task("copy-css", function() {
+    return gulp.src(paths.styles).pipe(gulp.dest("dist"));
+});
+
 function bundle() {
     return watchedBrowserify
         .bundle()
@@ -29,6 +34,6 @@ function bundle() {
         .pipe(gulp.dest("dist"));
 }
 
-gulp.task("default", gulp.parallel("copy-html", bundle));
+gulp.task("default", gulp.parallel("copy-html", "copy-css", bundle));
 watchedBrowserify.on("update", bundle);
 watchedBrowserify.on("log", gutil.log);
