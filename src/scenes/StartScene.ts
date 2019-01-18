@@ -1,36 +1,48 @@
-import { BlendModes } from "phaser";
-
 export class StartScene extends Phaser.Scene {
     constructor() {
         super({
-            key: "MainScene"
+            key: "StartScene"
         });
     }
 
+    sensitivity = 250;
+
+    ball!: Phaser.Physics.Arcade.Sprite;
+
     preload(): void {
-        this.load.setBaseURL("http://labs.phaser.io");
-        this.load.image("sky", "assets/skies/space3.png");
-        this.load.image("logo", "assets/sprites/phaser3-logo.png");
-        this.load.image("red", "assets/particles/red.png");
+        this.load.image("ball", "../src/assets/ball.png");
     }
 
     create(): void {
-        this.add.image(400, 300, "sky");
+        this.setupBall();
+    }
 
-        const particles = this.add.particles("red");
+    private setupBall() {
+        this.ball = this.physics.add.sprite(125, 0, "ball");
+        this.ball.setCollideWorldBounds(false);
+        this.ball.setBounce(0.3, 0);
+    }
 
-        const emitter = particles.createEmitter({
-            speed: 100,
-            scale: { start: 1, end: 0 },
-            blendMode: BlendModes.ADD
-        });
+    update(): void {
+        this.parseInput();
 
-        const logo = this.physics.add.image(400, 100, "logo");
+        if (this.ball.getTopLeft().y > this.game.canvas.height) {
+            console.log("out");
+        }
+    }
 
-        logo.setVelocity(100, 200);
-        logo.setBounce(1, 1);
-        logo.setCollideWorldBounds(true);
-
-        emitter.startFollow(logo);
+    private parseInput() {
+        const half = this.game.canvas.width / 2;
+        if (this.game.input.activePointer.isDown) {
+            if (this.game.input.activePointer.x > half) {
+                this.ball.setAccelerationX(+1 * this.sensitivity);
+            }
+            else if (this.game.input.activePointer.x < half) {
+                this.ball.setAccelerationX(-1 * this.sensitivity);
+            }
+        }
+        else {
+            this.ball.setAccelerationX(0);
+        }
     }
 }
