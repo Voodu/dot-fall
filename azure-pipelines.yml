@@ -23,7 +23,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)\dist'
+    SourceFolder: '$(System.DefaultWorkingDirectory)/dist'
     Contents: |
       **\*
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
