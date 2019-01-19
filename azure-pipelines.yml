@@ -25,7 +25,10 @@ steps:
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)/dist'
     Contents: |
-      **\*
+      **\*.html
+      **\*.css
+      **\*.js
+      **\*.png
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
