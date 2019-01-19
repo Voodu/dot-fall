@@ -6,6 +6,16 @@ export class MainGameScene extends Phaser.Scene {
     }
 
     sensitivity = 250;
+    scoreText!: Phaser.GameObjects.Text;
+
+    private _score = 0;
+    public get score(): number {
+        return this._score;
+    }
+    public set score(v: number) {
+        this._score = v;
+        this.updateText();
+    }
 
     ball!: Phaser.Physics.Arcade.Sprite;
     walls!: Phaser.Physics.Arcade.StaticGroup;
@@ -23,14 +33,29 @@ export class MainGameScene extends Phaser.Scene {
         this.setupPlatforms();
 
         this.setupCollisions();
+
+        this.setupText();
     }
 
     update(): void {
         this.parseInput();
         if (this.isBallOut()) {
-            console.log("out");
+            this.scene.start("LoseScene", {score: this.score});
         }
         this.cleanUp();
+    }
+
+    private setupText() {
+        const style = {
+            font: "15px Arial",
+            fill: "#fff"
+        };
+        this.scoreText = this.add.text(10, 10, `Score: 0`, style);
+        this.score = 0;
+    }
+
+    private updateText() {
+        this.scoreText.text = `Score: ${this.score}`;
     }
 
     private isBallOut() {
@@ -44,6 +69,7 @@ export class MainGameScene extends Phaser.Scene {
         this.platforms.children.each((p: Phaser.Physics.Arcade.Sprite) => {
             if (p.getBottomLeft().y < 0) {
                 p.destroy();
+                this.score++;
             }
         }, undefined);
     }

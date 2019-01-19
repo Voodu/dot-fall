@@ -1,13 +1,12 @@
 import "phaser";
-import { StartScene } from "./scenes/StartScene";
-import { MainGameScene } from "./scenes/MainGameScene";
+import { StartScene, MainGameScene, LoseScene } from "./scenes";
 
 // main game configuration
 const config: GameConfig = {
     type: Phaser.AUTO,
     width: 250,
     height: 400,
-    scene: [MainGameScene],
+    scene: [StartScene, MainGameScene, LoseScene],
     physics: {
         default: "arcade",
         arcade: {
