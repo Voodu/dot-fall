@@ -22,9 +22,9 @@ export class MainGameScene extends Phaser.Scene {
     platforms!: Phaser.Physics.Arcade.Group;
 
     preload(): void {
-        this.load.image("ball", "../src/assets/ball.png");
-        this.load.image("wall", "../src/assets/wall.png");
-        this.load.image("platform", "../src/assets/platform.png");
+        this.load.image("ball", "assets/ball.png");
+        this.load.image("wall", "assets/wall.png");
+        this.load.image("platform", "assets/platform.png");
     }
 
     create(): void {

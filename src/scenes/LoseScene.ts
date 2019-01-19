@@ -15,8 +15,8 @@ export class LoseScene extends Phaser.Scene {
     }
 
     preload(): void {
-        this.load.image("play", "../src/assets/playButton.png");
-        this.load.image("menu", "../src/assets/menuButton.png");
+        this.load.image("play", "assets/playButton.png");
+        this.load.image("menu", "assets/menuButton.png");
     }
 
     create(): void {

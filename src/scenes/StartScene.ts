@@ -9,8 +9,8 @@ export class StartScene extends Phaser.Scene {
     title!: Phaser.GameObjects.Sprite;
 
     preload(): void {
-        this.load.image("title", "../src/assets/gameTitle.png");
-        this.load.image("play", "../src/assets/playButton.png");
+        this.load.image("title", "assets/gameTitle.png");
+        this.load.image("play", "assets/playButton.png");
     }
 
     create(): void {
