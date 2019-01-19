@@ -5,30 +5,49 @@ var watchify = require("watchify");
 var tsify = require("tsify");
 var gutil = require("gulp-util");
 var paths = {
-    pages: ["src/*.html"]
+    pages: ["src/*.html"],
+    styles: ["src/*.css"],
+    assets: ["src/assets/**/*"]
 };
 
-var watchedBrowserify = watchify(
-    browserify({
-        basedir: ".",
-        debug: true,
-        entries: ["src/Game.ts"],
-        cache: {},
-        packageCache: {}
-    }).plugin(tsify)
-);
+browserified = () => browserify({
+    basedir: ".",
+    debug: true,
+    entries: ["src/Game.ts"],
+    cache: {},
+    packageCache: {}
+}).plugin(tsify);
 
-gulp.task("copy-html", function() {
-    return gulp.src(paths.pages).pipe(gulp.dest("dist"));
-});
-
-function bundle() {
-    return watchedBrowserify
+bundled = x =>
+    x
         .bundle()
         .pipe(source("bundle.js"))
         .pipe(gulp.dest("dist"));
-}
 
-gulp.task("default", gulp.parallel("copy-html", bundle));
-watchedBrowserify.on("update", bundle);
+watchedBundle = () => {
+    bundled(watchedBrowserify);
+};
+
+gulp.task("bundle", () => bundled(browserified()));
+
+gulp.task("copy-html", () => gulp.src(paths.pages).pipe(gulp.dest("dist")));
+
+gulp.task("copy-css", () => gulp.src(paths.styles).pipe(gulp.dest("dist")));
+
+gulp.task("copy-assets", () =>
+    gulp.src(paths.assets).pipe(gulp.dest("dist/assets"))
+);
+
+gulp.task(
+    "default",
+    gulp.parallel("copy-html", "copy-css", "copy-assets", "bundle")
+);
+
+gulp.task(
+    "watch",
+    gulp.parallel("copy-html", "copy-css", "copy-assets", watchedBundle)
+);
+
+var watchedBrowserify = watchify(browserified());
+watchedBrowserify.on("update", watchedBundle);
 watchedBrowserify.on("log", gutil.log);

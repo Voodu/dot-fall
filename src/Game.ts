@@ -1,17 +1,23 @@
 import "phaser";
-import { StartScene } from "./scenes/StartScene";
+import { StartScene, MainGameScene, LoseScene } from "./scenes";
 
 // main game configuration
 const config: GameConfig = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    parent: "game",
-    scene: StartScene,
+    width: 250,
+    height: 400,
+    scene: [StartScene, MainGameScene, LoseScene],
     physics: {
         default: "arcade",
         arcade: {
             gravity: { y: 200 }
+        }
+    },
+    callbacks: {
+        postBoot: game => {
+            // In v3.15, you have to override Phaser's default styles
+            game.canvas.style.width = "100%";
+            game.canvas.style.height = "100%";
         }
     }
 };
@@ -25,5 +31,5 @@ export class Game extends Phaser.Game {
 
 // when the page is loaded, create our game instance
 window.addEventListener("load", () => {
-    const game = new Game(config);
+    new Game(config);
 });

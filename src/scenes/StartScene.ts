@@ -1,36 +1,27 @@
-import { BlendModes } from "phaser";
-
 export class StartScene extends Phaser.Scene {
     constructor() {
         super({
-            key: "MainScene"
+            key: "StartScene"
         });
     }
 
+    playButton!: Phaser.GameObjects.Sprite;
+    title!: Phaser.GameObjects.Sprite;
+
     preload(): void {
-        this.load.setBaseURL("http://labs.phaser.io");
-        this.load.image("sky", "assets/skies/space3.png");
-        this.load.image("logo", "assets/sprites/phaser3-logo.png");
-        this.load.image("red", "assets/particles/red.png");
+        this.load.image("title", "assets/gameTitle.png");
+        this.load.image("play", "assets/playButton.png");
     }
 
     create(): void {
-        this.add.image(400, 300, "sky");
+        const center = this.game.canvas.width / 2;
 
-        const particles = this.add.particles("red");
+        this.title = this.add.sprite(center, 150, "title");
 
-        const emitter = particles.createEmitter({
-            speed: 100,
-            scale: { start: 1, end: 0 },
-            blendMode: BlendModes.ADD
-        });
-
-        const logo = this.physics.add.image(400, 100, "logo");
-
-        logo.setVelocity(100, 200);
-        logo.setBounce(1, 1);
-        logo.setCollideWorldBounds(true);
-
-        emitter.startFollow(logo);
+        this.playButton = this.add.sprite(center, 250, "play");
+        this.playButton.setInteractive();
+        this.playButton.on("pointerdown", () => this.scene.start("MainGameScene"));
     }
+
+    update(): void {}
 }
