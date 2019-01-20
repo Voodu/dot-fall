@@ -22,7 +22,7 @@ browserified = () =>
         packageCache: {}
     }).plugin(tsify);
 
-bundled = x =>
+bundledUglified = x =>
     x
         .bundle()
         .pipe(source("bundle.js"))
@@ -32,11 +32,17 @@ bundled = x =>
         .pipe(sourcemaps.write("./"))
         .pipe(gulp.dest("dist"));
 
+quickBundled = x =>
+    x
+        .bundle()
+        .pipe(source("bundle.js"))
+        .pipe(gulp.dest("dist"));
+
 watchedBundle = () => {
-    bundled(watchedBrowserify);
+    quickBundled(watchedBrowserify);
 };
 
-gulp.task("bundle", () => bundled(browserified()));
+gulp.task("bundle", () => bundledUglified(browserified()));
 
 gulp.task("copy-html", () => gulp.src(paths.pages).pipe(gulp.dest("dist")));
 
