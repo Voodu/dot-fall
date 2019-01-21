@@ -7,11 +7,18 @@ var uglify = require("gulp-uglify");
 var sourcemaps = require("gulp-sourcemaps");
 var buffer = require("vinyl-buffer");
 var gutil = require("gulp-util");
-var obfuscate = require('gulp-javascript-obfuscator');
+var obfuscate = require("gulp-javascript-obfuscator");
 var paths = {
     pages: ["src/*.html"],
     styles: ["src/*.css"],
-    assets: ["src/assets/**/*"]
+    assets: ["src/assets/**/*"],
+    other: [
+        "src/*.png",
+        "src/*.xml",
+        "src/*.ico",
+        "src/*.svg",
+        "src/*.webmanifest"
+    ]
 };
 
 browserified = () =>
@@ -29,9 +36,11 @@ bundledUglified = x =>
         .pipe(source("bundle.js"))
         .pipe(buffer())
         .pipe(uglify())
-        .pipe(obfuscate({
-            selfDefending: true
-        }))
+        .pipe(
+            obfuscate({
+                selfDefending: true
+            })
+        )
         .pipe(gulp.dest("dist"));
 
 quickBundled = x =>
@@ -54,14 +63,21 @@ gulp.task("copy-assets", () =>
     gulp.src(paths.assets).pipe(gulp.dest("dist/assets"))
 );
 
+gulp.task("copy-other", () => gulp.src(paths.other).pipe(gulp.dest("dist")));
+
+gulp.task(
+    "copy-all",
+    gulp.parallel("copy-html", "copy-css", "copy-assets", "copy-other")
+);
+
 gulp.task(
     "default",
-    gulp.parallel("copy-html", "copy-css", "copy-assets", "bundle")
+    gulp.parallel("copy-all", "bundle")
 );
 
 gulp.task(
     "watch",
-    gulp.parallel("copy-html", "copy-css", "copy-assets", watchedBundle)
+    gulp.parallel("copy-all", watchedBundle)
 );
 
 var watchedBrowserify = watchify(browserified());
