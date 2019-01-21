@@ -5,9 +5,6 @@ export class LoseScene extends Phaser.Scene {
         });
     }
 
-    playButton!: Phaser.GameObjects.Sprite;
-    menuButton!: Phaser.GameObjects.Sprite;
-    scoreText!: Phaser.GameObjects.Text;
     score = 0;
 
     init(data: any): void {
@@ -21,28 +18,30 @@ export class LoseScene extends Phaser.Scene {
     }
 
     create(): void {
-        const center = this.game.canvas.width / 2;
+        const width = this.game.canvas.width;
+        const height = this.game.canvas.height;
+        const center = width / 2;
 
         const textStyle = {
-            font: "30px Arial",
-            fill: "#fff"
+            font: "200px Amatic SC",
+            fill: "#000"
         };
 
-        this.scoreText = this.add.text(
-            60,
-            175,
+        this.add.text(
+            (1 / 5) * width,
+            (1 / 3) * height,
             `Score: ${this.score}`,
             textStyle
         );
 
-        this.playButton = this.add.sprite(center, 250, "play");
-        this.playButton.setInteractive();
-        this.playButton.on("pointerdown", () =>
-            this.scene.start("MainGameScene")
-        );
-        this.menuButton = this.add.sprite(center, 300, "menu");
-        this.menuButton.setInteractive();
-        this.menuButton.on("pointerdown", () => this.scene.start("StartScene"));
+        this.add
+            .sprite(center, (5 / 8) * height, "play")
+            .setInteractive()
+            .on("pointerdown", () => this.scene.start("MainGameScene"));
+        this.add
+            .sprite(center, (3 / 4) * height, "menu")
+            .setInteractive()
+            .on("pointerdown", () => this.scene.start("StartScene"));
     }
 
     update(): void {}

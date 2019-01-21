@@ -5,7 +5,16 @@ export class MainGameScene extends Phaser.Scene {
         });
     }
 
-    sensitivity = 250;
+    readonly sensitivity = 1000;
+    readonly ballGravity = 600;
+    readonly scoreStep = 10;
+    readonly speedIncrease = 4;
+
+    readonly startPlatformSpawnDelay = 2000;
+    readonly startPlatformVelocity = 300;
+    platformSpawnDelay!: number;
+    platformVelocity!: number;
+
     scoreText!: Phaser.GameObjects.Text;
 
     private _score = 0;
@@ -14,6 +23,11 @@ export class MainGameScene extends Phaser.Scene {
     }
     public set score(v: number) {
         this._score = v;
+        this.platformVelocity =
+            this.startPlatformVelocity +
+            (this._score / this.scoreStep) * this.speedIncrease;
+        this.platformSpawnDelay =
+            this.startPlatformSpawnDelay - this.platformVelocity;
         this.updateText();
     }
 
@@ -25,12 +39,14 @@ export class MainGameScene extends Phaser.Scene {
         this.load.image("ball", "assets/ball.png");
         this.load.image("wall", "assets/wall.png");
         this.load.image("platform", "assets/platform.png");
+        this.platformSpawnDelay = this.startPlatformSpawnDelay;
+        this.platformVelocity = this.startPlatformVelocity;
     }
 
     create(): void {
         this.setupBall();
-        this.setupWalls();
         this.setupPlatforms();
+        this.setupWalls();
 
         this.setupCollisions();
 
@@ -45,12 +61,35 @@ export class MainGameScene extends Phaser.Scene {
         this.cleanUp();
     }
 
+    private setupCollisions(): void {
+        this.physics.add.collider(this.ball, this.walls);
+        this.physics.add.collider(this.ball, this.platforms);
+    }
+
+    private setupWalls(): void {
+        this.walls = this.physics.add.staticGroup();
+        this.walls.create(0, 0, "wall");
+        this.walls.create(this.game.canvas.width + 1, 0, "wall");
+    }
+
+    private setupBall(): void {
+        this.ball = this.physics.add.sprite(500, 0, "ball");
+        this.ball.setCollideWorldBounds(false);
+        this.ball.setBounce(0.3, 0);
+        this.ball.setGravity(0, this.ballGravity);
+    }
+
+    private setupPlatforms(): void {
+        this.platforms = this.physics.add.group();
+        this.spawnPlatform(this.game.canvas.width / 2);
+    }
+
     private setupText() {
         const style = {
-            font: "15px Arial",
-            fill: "#fff"
+            font: "100px Amatic SC",
+            fill: "#000"
         };
-        this.scoreText = this.add.text(10, 10, `Score: 0`, style);
+        this.scoreText = this.add.text(40, 40, `Score: 0`, style);
         this.score = 0;
     }
 
@@ -69,19 +108,9 @@ export class MainGameScene extends Phaser.Scene {
         this.platforms.children.each((p: Phaser.Physics.Arcade.Sprite) => {
             if (p.getBottomLeft().y < 0) {
                 p.destroy();
-                this.score++;
+                this.score += this.scoreStep;
             }
         }, undefined);
-    }
-
-    private setupPlatforms(): void {
-        this.platforms = this.physics.add.group();
-        this.time.addEvent({
-            delay: 2000,
-            callback: this.spawnPlatform.bind(this),
-            loop: true
-        });
-        this.spawnPlatform(this.game.canvas.width / 2);
     }
 
     private spawnPlatform(x?: number, y?: number): void {
@@ -92,26 +121,14 @@ export class MainGameScene extends Phaser.Scene {
             y = this.game.canvas.height;
         }
         const platform = this.platforms.create(x, y, "platform");
-        platform.body.setVelocity(0, -50);
+        platform.body.setVelocity(0, -1 * this.platformVelocity);
         platform.body.allowGravity = false;
         platform.body.immovable = true;
-    }
-
-    private setupCollisions(): void {
-        this.physics.add.collider(this.ball, this.walls);
-        this.physics.add.collider(this.ball, this.platforms);
-    }
-
-    private setupWalls(): void {
-        this.walls = this.physics.add.staticGroup();
-        this.walls.create(0, 0, "wall");
-        this.walls.create(this.game.canvas.width + 1, 0, "wall");
-    }
-
-    private setupBall(): void {
-        this.ball = this.physics.add.sprite(125, 0, "ball");
-        this.ball.setCollideWorldBounds(false);
-        this.ball.setBounce(0.3, 0);
+        this.time.addEvent({
+            delay: this.platformSpawnDelay,
+            callback: this.spawnPlatform.bind(this),
+            loop: false
+        });
     }
 
     private parseInput(): void {

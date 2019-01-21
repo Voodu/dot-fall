@@ -3,9 +3,11 @@ import { StartScene, MainGameScene, LoseScene } from "./scenes";
 
 // main game configuration
 const config: GameConfig = {
+    title: "DotFall",
+    banner: false,
     type: Phaser.AUTO,
-    width: 250,
-    height: 400,
+    width: 1000,
+    height: 1600,
     scene: [StartScene, MainGameScene, LoseScene],
     physics: {
         default: "arcade",
@@ -19,7 +21,8 @@ const config: GameConfig = {
             game.canvas.style.width = "100%";
             game.canvas.style.height = "100%";
         }
-    }
+    },
+    backgroundColor: "rgba(215, 215, 215, 1)"
 };
 
 // game class

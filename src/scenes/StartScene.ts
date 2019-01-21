@@ -11,37 +11,33 @@ export class StartScene extends Phaser.Scene {
         };
     }
 
-    playButton!: Phaser.GameObjects.Sprite;
-    title!: Phaser.GameObjects.Sprite;
-
-    highScoreText!: Phaser.GameObjects.Text;
-
     preload(): void {
         this.load.image("title", "assets/gameTitle.png");
         this.load.image("play", "assets/playButton.png");
     }
 
     create(): void {
-        const center = this.game.canvas.width / 2;
+        const width = this.game.canvas.width;
+        const height = this.game.canvas.height;
+        const center = width / 2;
 
-        this.title = this.add.sprite(center, 150, "title");
+        this.add.sprite(center, (3 / 8) * height, "title");
 
         const textStyle = {
-            font: "26px Arial",
-            fill: "#fff"
+            font: "104px Amatic SC",
+            fill: "#000"
         };
-        this.highScoreText = this.add.text(
-            45,
-            190,
+        this.add.text(
+            (3 / 10) * width,
+            (19 / 40) * height,
             `Highscore: ${HighScore}`,
             textStyle
         );
 
-        this.playButton = this.add.sprite(center, 250, "play");
-        this.playButton.setInteractive();
-        this.playButton.on("pointerdown", () =>
-            this.scene.start("MainGameScene")
-        );
+        this.add
+            .sprite(center, (5 / 8) * height, "play")
+            .setInteractive()
+            .on("pointerdown", () => this.scene.start("MainGameScene"));
     }
 
     update(): void {}
