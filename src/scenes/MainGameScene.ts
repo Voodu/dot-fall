@@ -40,7 +40,7 @@ export class MainGameScene extends Phaser.Scene {
     update(): void {
         this.parseInput();
         if (this.isBallOut()) {
-            this.scene.start("LoseScene", {score: this.score});
+            this.scene.start("LoseScene", { score: this.score });
         }
         this.cleanUp();
     }
