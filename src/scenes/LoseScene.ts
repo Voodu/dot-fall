@@ -27,7 +27,7 @@ export class LoseScene extends Phaser.Scene {
 
         const textStyle = {
             font: "120px Arial",
-            fill: "#fff"
+            fill: "#000"
         };
 
         this.scoreText = this.add.text(

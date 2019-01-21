@@ -89,7 +89,7 @@ export class MainGameScene extends Phaser.Scene {
     private setupText() {
         const style = {
             font: "60px Arial",
-            fill: "#fff"
+            fill: "#000"
         };
         this.scoreText = this.add.text(40, 40, `Score: 0`, style);
         this.score = 0;

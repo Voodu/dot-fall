@@ -30,7 +30,7 @@ export class StartScene extends Phaser.Scene {
 
         const textStyle = {
             font: "104px Arial",
-            fill: "#fff"
+            fill: "#000"
         };
         this.highScoreText = this.add.text(
             (9 / 50) * width,

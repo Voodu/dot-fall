@@ -19,7 +19,8 @@ const config: GameConfig = {
             game.canvas.style.width = "100%";
             game.canvas.style.height = "100%";
         }
-    }
+    },
+    backgroundColor: "rgba(255, 255, 255, 1)"
 };
 
 // game class
