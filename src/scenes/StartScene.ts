@@ -22,22 +22,24 @@ export class StartScene extends Phaser.Scene {
     }
 
     create(): void {
-        const center = this.game.canvas.width / 2;
+        const width = this.game.canvas.width;
+        const height = this.game.canvas.height;
+        const center = width / 2;
 
-        this.title = this.add.sprite(center, 150, "title");
+        this.title = this.add.sprite(center, (3 / 8) * height, "title");
 
         const textStyle = {
-            font: "26px Arial",
+            font: "104px Arial",
             fill: "#fff"
         };
         this.highScoreText = this.add.text(
-            45,
-            190,
+            (9 / 50) * width,
+            (19 / 40) * height,
             `Highscore: ${HighScore}`,
             textStyle
         );
 
-        this.playButton = this.add.sprite(center, 250, "play");
+        this.playButton = this.add.sprite(center, (5 / 8) * height, "play");
         this.playButton.setInteractive();
         this.playButton.on("pointerdown", () =>
             this.scene.start("MainGameScene")

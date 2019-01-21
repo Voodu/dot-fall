@@ -5,7 +5,9 @@ export class MainGameScene extends Phaser.Scene {
         });
     }
 
-    sensitivity = 250;
+    sensitivity = 1000;
+    ballGravity = 600;
+    platformVelocity = 200;
     scoreText!: Phaser.GameObjects.Text;
 
     private _score = 0;
@@ -47,10 +49,10 @@ export class MainGameScene extends Phaser.Scene {
 
     private setupText() {
         const style = {
-            font: "15px Arial",
+            font: "60px Arial",
             fill: "#fff"
         };
-        this.scoreText = this.add.text(10, 10, `Score: 0`, style);
+        this.scoreText = this.add.text(40, 40, `Score: 0`, style);
         this.score = 0;
     }
 
@@ -92,7 +94,7 @@ export class MainGameScene extends Phaser.Scene {
             y = this.game.canvas.height;
         }
         const platform = this.platforms.create(x, y, "platform");
-        platform.body.setVelocity(0, -50);
+        platform.body.setVelocity(0, -1 * this.platformVelocity);
         platform.body.allowGravity = false;
         platform.body.immovable = true;
     }
@@ -109,9 +111,10 @@ export class MainGameScene extends Phaser.Scene {
     }
 
     private setupBall(): void {
-        this.ball = this.physics.add.sprite(125, 0, "ball");
+        this.ball = this.physics.add.sprite(500, 0, "ball");
         this.ball.setCollideWorldBounds(false);
         this.ball.setBounce(0.3, 0);
+        this.ball.setGravity(0, this.ballGravity);
     }
 
     private parseInput(): void {
