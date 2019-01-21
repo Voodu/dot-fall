@@ -35,8 +35,6 @@ export class MainGameScene extends Phaser.Scene {
     walls!: Phaser.Physics.Arcade.StaticGroup;
     platforms!: Phaser.Physics.Arcade.Group;
 
-    upper!: Phaser.GameObjects.Group;
-
     preload(): void {
         this.load.image("ball", "assets/ball.png");
         this.load.image("wall", "assets/wall.png");
@@ -88,7 +86,7 @@ export class MainGameScene extends Phaser.Scene {
 
     private setupText() {
         const style = {
-            font: "60px Arial",
+            font: "100px Amatic SC",
             fill: "#000"
         };
         this.scoreText = this.add.text(40, 40, `Score: 0`, style);

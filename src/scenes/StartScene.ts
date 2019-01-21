@@ -11,11 +11,6 @@ export class StartScene extends Phaser.Scene {
         };
     }
 
-    playButton!: Phaser.GameObjects.Sprite;
-    title!: Phaser.GameObjects.Sprite;
-
-    highScoreText!: Phaser.GameObjects.Text;
-
     preload(): void {
         this.load.image("title", "assets/gameTitle.png");
         this.load.image("play", "assets/playButton.png");
@@ -26,24 +21,23 @@ export class StartScene extends Phaser.Scene {
         const height = this.game.canvas.height;
         const center = width / 2;
 
-        this.title = this.add.sprite(center, (3 / 8) * height, "title");
+        this.add.sprite(center, (3 / 8) * height, "title");
 
         const textStyle = {
-            font: "104px Arial",
+            font: "104px Amatic SC",
             fill: "#000"
         };
-        this.highScoreText = this.add.text(
-            (9 / 50) * width,
+        this.add.text(
+            (3 / 10) * width,
             (19 / 40) * height,
             `Highscore: ${HighScore}`,
             textStyle
         );
 
-        this.playButton = this.add.sprite(center, (5 / 8) * height, "play");
-        this.playButton.setInteractive();
-        this.playButton.on("pointerdown", () =>
-            this.scene.start("MainGameScene")
-        );
+        this.add
+            .sprite(center, (5 / 8) * height, "play")
+            .setInteractive()
+            .on("pointerdown", () => this.scene.start("MainGameScene"));
     }
 
     update(): void {}
