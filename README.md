@@ -1,6 +1,6 @@
 [![Build Status](https://dev.azure.com/PiotrLadonski/DotFall/_apis/build/status/Voodu.dot-fall?branchName=master)](https://dev.azure.com/PiotrLadonski/DotFall/_build/latest?definitionId=1?branchName=master)
 
-# Dot Fall
+# DotFall
 Simple game written using Phaser 3 and Typescript.
 Main aim is to fall with the ball as long as you can.
 

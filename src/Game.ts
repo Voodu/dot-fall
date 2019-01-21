@@ -3,6 +3,8 @@ import { StartScene, MainGameScene, LoseScene } from "./scenes";
 
 // main game configuration
 const config: GameConfig = {
+    title: "DotFall",
+    banner: false,
     type: Phaser.AUTO,
     width: 1000,
     height: 1600,
