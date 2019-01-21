@@ -12,6 +12,7 @@ export class LoseScene extends Phaser.Scene {
 
     init(data: any): void {
         this.score = data.score;
+        HighScore = Math.max(HighScore, this.score);
     }
 
     preload(): void {
@@ -24,10 +25,15 @@ export class LoseScene extends Phaser.Scene {
 
         const textStyle = {
             font: "30px Arial",
-            fill: "#fff",
+            fill: "#fff"
         };
 
-        this.scoreText = this.add.text(60, 175, `Score: ${this.score}`, textStyle);
+        this.scoreText = this.add.text(
+            60,
+            175,
+            `Score: ${this.score}`,
+            textStyle
+        );
 
         this.playButton = this.add.sprite(center, 250, "play");
         this.playButton.setInteractive();
