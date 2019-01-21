@@ -20,7 +20,7 @@ const config: GameConfig = {
             game.canvas.style.height = "100%";
         }
     },
-    backgroundColor: "rgba(255, 255, 255, 1)"
+    backgroundColor: "rgba(215, 215, 215, 1)"
 };
 
 // game class
