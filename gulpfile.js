@@ -7,6 +7,7 @@ var uglify = require("gulp-uglify");
 var sourcemaps = require("gulp-sourcemaps");
 var buffer = require("vinyl-buffer");
 var gutil = require("gulp-util");
+var obfuscate = require('gulp-javascript-obfuscator');
 var paths = {
     pages: ["src/*.html"],
     styles: ["src/*.css"],
@@ -27,9 +28,10 @@ bundledUglified = x =>
         .bundle()
         .pipe(source("bundle.js"))
         .pipe(buffer())
-        .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(uglify())
-        .pipe(sourcemaps.write("./"))
+        .pipe(obfuscate({
+            selfDefending: true
+        }))
         .pipe(gulp.dest("dist"));
 
 quickBundled = x =>
