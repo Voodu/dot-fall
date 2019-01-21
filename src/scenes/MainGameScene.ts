@@ -8,6 +8,7 @@ export class MainGameScene extends Phaser.Scene {
     sensitivity = 1000;
     ballGravity = 600;
     platformVelocity = 200;
+    scoreStep = 10;
     scoreText!: Phaser.GameObjects.Text;
 
     private _score = 0;
@@ -71,7 +72,7 @@ export class MainGameScene extends Phaser.Scene {
         this.platforms.children.each((p: Phaser.Physics.Arcade.Sprite) => {
             if (p.getBottomLeft().y < 0) {
                 p.destroy();
-                this.score++;
+                this.score += this.scoreStep;
             }
         }, undefined);
     }

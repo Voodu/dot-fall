@@ -31,7 +31,7 @@ export class LoseScene extends Phaser.Scene {
         };
 
         this.scoreText = this.add.text(
-            (6 / 25) * width,
+            (1 / 5) * width,
             (7 / 16) * height,
             `Score: ${this.score}`,
             textStyle
