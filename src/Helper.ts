@@ -7,3 +7,7 @@ export function load(name: string, defaultValue: any, purge = true): any {
     if (purge) localStorage.clear();
     return storage === undefined || storage === null ? defaultValue : storage;
 }
+
+export function isIOS(): boolean {
+    return !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+}
