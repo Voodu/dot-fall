@@ -1,18 +1,18 @@
-import { load, save } from "../Helper";
+import { load, save, isIOS } from "../Helper";
 
 export class StartScene extends Phaser.Scene {
     constructor() {
         super({
             key: "StartScene"
         });
-        HighScore = load("topDotFallScore", 0);
+        HighScore = load("topDotFallScore", 0, !isIOS());
         document.onvisibilitychange = () => {
             if (document.visibilityState === "hidden") {
                 save("topDotFallScore", HighScore);
             }
 
             if (document.visibilityState === "visible") {
-                HighScore = load("topDotFallScore", 0);
+                HighScore = load("topDotFallScore", 0), !isIOS();
             }
         };
     }
