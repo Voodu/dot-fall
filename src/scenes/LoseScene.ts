@@ -1,4 +1,4 @@
-import { save, isIOS } from "../Helper";
+import { Helper } from "../Helper";
 
 export class LoseScene extends Phaser.Scene {
     constructor() {
@@ -11,8 +11,8 @@ export class LoseScene extends Phaser.Scene {
 
     init(data: any): void {
         this.score = data.score;
-        HighScore = Math.max(HighScore, this.score);
-        if (isIOS()) save("topDotFallScore", HighScore);
+        Helper.HIGHSCORE = Math.max(Helper.HIGHSCORE, this.score);
+        if (Helper.isIOS()) Helper.save("topDotFallScore", Helper.HIGHSCORE);
     }
 
     preload(): void {
