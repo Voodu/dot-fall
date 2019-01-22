@@ -6,8 +6,14 @@ export class StartScene extends Phaser.Scene {
             key: "StartScene"
         });
         HighScore = load("topDotFallScore", 0);
-        window.onbeforeunload = () => {
-            save("topDotFallScore", HighScore);
+        document.onvisibilitychange = () => {
+            if (document.visibilityState === "hidden") {
+                save("topDotFallScore", HighScore);
+            }
+
+            if (document.visibilityState === "visible") {
+                HighScore = load("topDotFallScore", 0);
+            }
         };
     }
 
