@@ -5,13 +5,14 @@ export class MainGameScene extends Phaser.Scene {
         });
     }
 
-    readonly sensitivity = 1000;
-    readonly ballGravity = 600;
+    readonly sensitivity = 2000;
+    ballGravity = 600;
     readonly scoreStep = 10;
     readonly speedIncrease = 4;
+    readonly gravityIncrease = 6;
 
     readonly startPlatformSpawnDelay = 2000;
-    readonly startPlatformVelocity = 300;
+    readonly startPlatformVelocity = 200;
     platformSpawnDelay!: number;
     platformVelocity!: number;
 
@@ -28,6 +29,7 @@ export class MainGameScene extends Phaser.Scene {
             (this._score / this.scoreStep) * this.speedIncrease;
         this.platformSpawnDelay =
             this.startPlatformSpawnDelay - this.platformVelocity;
+            this.ball.setGravity(0, this.ballGravity += this.gravityIncrease);
         this.updateText();
     }
 
